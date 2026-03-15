@@ -47,3 +47,11 @@ plt.title("Test Set Class Distribution")
 plt.xlabel("Target Class")
 plt.ylabel("Count")
 plt.show()
+
+# scale_features.py dosyasından sonra train-test split işlemi yapıldıktan sonra oluşan X_train, X_test, y_train, y_test dosyalarını outputs klasörüne kaydedelim.
+X_train.to_csv("../../outputs/X_train.csv", index=False)
+X_test.to_csv("../../outputs/X_test.csv", index=False)
+y_train.to_csv("../../outputs/y_train.csv", index=False)
+y_test.to_csv("../../outputs/y_test.csv", index=False)
+
+print("\nTrain-test dosyaları outputs klasörüne kaydedildi.")
