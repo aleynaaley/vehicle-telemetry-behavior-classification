@@ -1,63 +1,58 @@
 import pandas as pd
-import numpy as np
-import glob
+import matplotlib.pyplot as plt
+import seaborn as sns
 import os
 
-from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score
-from sklearn.utils.class_weight import compute_class_weight
+print("\n--- Dataset Yükleniyor ---")
 
-from sklearn.linear_model import LogisticRegression
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
+# dataseti oku
+df = pd.read_csv("../../dataset/sero_features_4.csv")
 
-##----------------------------------------------------------
-## Veri dosyalarını oku ve birleştir
+print("Dataset boyutu:", df.shape)
 
-folder_path = "dataset"   # kendi klasör adını yaz
-csv_files = glob.glob(os.path.join(folder_path, "*.csv"))
+print("\n--- İlk 5 Satır ---")
+print(df.head())
 
-print("Bulunan dosya sayısı:", len(csv_files))
-print(csv_files)
-
-df_list = []
-
-for file in csv_files:
-    temp_df = pd.read_csv(file)
-    df_list.append(temp_df)
-
-df = pd.concat(df_list, ignore_index=True)
-df.to_csv("dataset.csv", index=False)
-
-print("Birleşik veri boyutu:", df.shape)
-df.head()
-
-## Veri hakkında genel bilgiler ve eksik değerlerin kontrolü
+print("\n--- Sütunlar ---")
 print(df.columns.tolist())
+
+print("\n--- Genel Bilgi ---")
 print(df.info())
+
+print("\n--- Eksik Veri Kontrolü ---")
 print(df.isnull().sum())
 
-# Hedef değişkeninin dağılımını incelelim cunku dengesiz bir veri seti olabilir
+print("\n--- Target Dağılımı ---")
 print(df["Target"].value_counts())
+
+print("\n--- Target Yüzdeleri ---")
 print(df["Target"].value_counts(normalize=True) * 100)
 
-
-# feature istatistikleri
 print("\n--- Feature İstatistikleri ---")
 print(df.describe())
 
-# class dağılım grafiği
-import seaborn as sns
-import matplotlib.pyplot as plt
+# temiz dataseti kaydet
+df.to_csv("../../outputs/dataset_clean.csv", index=False)
 
-plt.figure(figsize=(6,4))
+print("\nDataset kaydedildi: outputs/dataset.csv")
+
+# -----------------------------
+# Grafik 1: Target class distribution
+plt.figure(figsize=(6, 4))
 sns.countplot(x="Target", data=df)
-
 plt.title("Target Class Distribution")
 plt.xlabel("Driving Behavior Class")
 plt.ylabel("Count")
+plt.tight_layout()
+plt.savefig("../../outputs/target_class_distribution.png")
+plt.show()
 
+# -----------------------------
+# Grafik 2: Korelasyon matrisi
+plt.figure(figsize=(14, 10))
+correlation_matrix = df.corr()
+sns.heatmap(correlation_matrix, cmap="coolwarm")
+plt.title("Correlation Matrix")
+plt.tight_layout()
+plt.savefig("../../outputs/correlation_matrix.png")
 plt.show()
