@@ -1,0 +1,18 @@
+KNN Model Sonuçları
+----------------------
+Accuracy: 0.9909502262443439
+Precision: 0.9911395025581875
+Recall: 0.9909502262443439
+F1 Score: 0.9909617491923728
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           1       0.98      1.00      0.99        50
+           2       1.00      0.98      0.99        57
+           3       1.00      0.99      0.99        70
+           4       0.98      1.00      0.99        44
+
+    accuracy                           0.99       221
+   macro avg       0.99      0.99      0.99       221
+weighted avg       0.99      0.99      0.99       221

@@ -8,10 +8,10 @@ import os
 print("\n--- KNN Modeli ---")
 
 # verileri yükle
-X_train = pd.read_csv("../../outputs/X_train_scaled.csv")
-X_test = pd.read_csv("../../outputs/X_test_scaled.csv")
-y_train = pd.read_csv("../../outputs/y_train.csv").squeeze()
-y_test = pd.read_csv("../../outputs/y_test.csv").squeeze()
+X_train = pd.read_csv("../../../outputs/X_train_scaled.csv")
+X_test = pd.read_csv("../../../outputs/X_test_scaled.csv")
+y_train = pd.read_csv("../../../outputs/y_train.csv").squeeze()
+y_test = pd.read_csv("../../../outputs/y_test.csv").squeeze()
 
 print("X_train:", X_train.shape)
 print("X_test:", X_test.shape)
@@ -37,8 +37,26 @@ print("Precision:", precision)
 print("Recall:", recall)
 print("F1 Score:", f1)
 
+report = classification_report(y_test, y_pred)
 print("\nClassification Report")
-print(classification_report(y_test, y_pred))
+print(report)
+
+# 📁 klasör oluştur
+save_path = "../../../outputs/knn"
+os.makedirs(save_path, exist_ok=True)
+
+# 📝 metrikleri dosyaya kaydet
+with open(f"{save_path}/knn_metrics.txt", "w") as f:
+    f.write("KNN Model Sonuçları\n")
+    f.write("----------------------\n")
+    f.write(f"Accuracy: {accuracy}\n")
+    f.write(f"Precision: {precision}\n")
+    f.write(f"Recall: {recall}\n")
+    f.write(f"F1 Score: {f1}\n\n")
+    f.write("Classification Report:\n")
+    f.write(report)
+
+print("\nMetrikler kaydedildi -> outputs/knn/knn_metrics.txt")
 
 # confusion matrix
 cm = confusion_matrix(y_test, y_pred)
@@ -50,7 +68,8 @@ plt.title("KNN Confusion Matrix")
 plt.xlabel("Predicted")
 plt.ylabel("Actual")
 
-os.makedirs("../../outputs", exist_ok=True)
-plt.savefig("../../outputs/knn_confusion_matrix.png")
+plt.savefig(f"{save_path}/knn_confusion_matrix.png")
+
+print("Confusion matrix kaydedildi -> outputs/knn/knn_confusion_matrix.png")
 
 plt.show()

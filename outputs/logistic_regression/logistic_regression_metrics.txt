@@ -1,0 +1,18 @@
+Logistic Regression Model Sonuçları
+----------------------
+Accuracy: 0.9909502262443439
+Precision: 0.99101395704544
+Recall: 0.9909502262443439
+F1 Score: 0.9909462503191389
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           1       0.98      0.98      0.98        50
+           2       1.00      0.98      0.99        57
+           3       0.99      1.00      0.99        70
+           4       1.00      1.00      1.00        44
+
+    accuracy                           0.99       221
+   macro avg       0.99      0.99      0.99       221
+weighted avg       0.99      0.99      0.99       221
