@@ -4,6 +4,8 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import seaborn as sns
 import matplotlib.pyplot as plt
 import os
+import joblib
+
 
 print("\n--- KNN Modeli ---")
 
@@ -69,6 +71,9 @@ plt.xlabel("Predicted")
 plt.ylabel("Actual")
 
 plt.savefig(f"{save_path}/knn_confusion_matrix.png")
+
+joblib.dump(knn, f"{save_path}/knn_model.pkl")
+print("Model kaydedildi -> knn_model.pkl")
 
 print("Confusion matrix kaydedildi -> outputs/knn/knn_confusion_matrix.png")
 

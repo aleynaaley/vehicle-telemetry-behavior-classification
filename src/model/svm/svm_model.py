@@ -4,6 +4,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import seaborn as sns
 import matplotlib.pyplot as plt
 import os
+import joblib
 
 print("\n--- SVM Modeli ---")
 
@@ -69,6 +70,9 @@ plt.xlabel("Predicted")
 plt.ylabel("Actual")
 
 plt.savefig(f"{save_path}/svm_confusion_matrix.png")
+
+joblib.dump(model, f"{save_path}/svm_model.pkl")
+print("Model kaydedildi -> svm_model.pkl")
 
 print("Confusion matrix kaydedildi -> outputs/svm/svm_confusion_matrix.png")
 
