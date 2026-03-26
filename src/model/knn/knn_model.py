@@ -21,7 +21,7 @@ print("X_test:", X_test.shape)
 # model
 knn = KNeighborsClassifier(n_neighbors=5)
 
-# training
+# training (lazy learning) işi tahmin anında yapılıyor, eğitim aşamasında sadece veriyi saklıyor
 knn.fit(X_train, y_train)
 
 # prediction

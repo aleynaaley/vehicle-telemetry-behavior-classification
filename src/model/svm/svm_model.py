@@ -17,13 +17,13 @@ y_test = pd.read_csv("../../../outputs/y_test.csv").squeeze()
 print("X_train:", X_train.shape)
 print("X_test:", X_test.shape)
 
-# model
+# model svc:Yani sınıflandırma yapan SVM sürümü. Kernel olarak linear seçildi, yani doğrusal bir sınıflandırma yapacak.
 model = SVC(kernel="linear")
 
-# training
+# training 
 model.fit(X_train, y_train)
 
-# prediction
+# prediction 
 y_pred = model.predict(X_test)
 
 print("\n--- Model Performansı ---")

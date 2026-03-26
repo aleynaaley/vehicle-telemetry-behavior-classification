@@ -15,13 +15,13 @@ scaler = StandardScaler()
 
 print("\n--- Scaling uygulanıyor ---")
 
-# sadece train üzerinde öğren
+# sadece train üzerinde öğren , aslında dağılım öğreniyor 
 X_train_scaled = scaler.fit_transform(X_train)
 
 # test setine aynı dönüşümü uygula
 X_test_scaled = scaler.transform(X_test)
 
-# tekrar dataframe yap
+# tekrar dataframe yap , numPy array olarak geliyor
 X_train_scaled = pd.DataFrame(X_train_scaled, columns=X_train.columns)
 X_test_scaled = pd.DataFrame(X_test_scaled, columns=X_test.columns)
 
