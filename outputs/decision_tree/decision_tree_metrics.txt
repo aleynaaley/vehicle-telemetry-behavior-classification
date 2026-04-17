@@ -1,0 +1,54 @@
+Decision Tree Model Sonuçları
+========================================
+
+Genel Metrikler
+--------------------
+Accuracy: 0.9909502262443439
+Balanced Accuracy: 0.99
+Cohen Kappa: 0.9877954495250718
+MCC: 0.987905291289369
+
+Weighted Ortalama Metrikler
+------------------------------
+Precision (weighted): 0.9912016088486676
+Recall (weighted): 0.9909502262443439
+F1 Score (weighted): 0.9909216124152803
+
+Macro Ortalama Metrikler
+---------------------------
+Precision (macro): 0.9930555555555556
+Recall (macro): 0.99
+F1 Score (macro): 0.99137683242311
+
+Micro Ortalama Metrikler
+---------------------------
+Precision (micro): 0.9909502262443439
+Recall (micro): 0.9909502262443439
+F1 Score (micro): 0.9909502262443439
+
+Classification Report
+-------------------------
+              precision    recall  f1-score   support
+
+           1       1.00      0.96      0.98        50
+           2       1.00      1.00      1.00        57
+           3       0.97      1.00      0.99        70
+           4       1.00      1.00      1.00        44
+
+    accuracy                           0.99       221
+   macro avg       0.99      0.99      0.99       221
+weighted avg       0.99      0.99      0.99       221
+
+Confusion Matrix
+--------------------
+[[48  0  2  0]
+ [ 0 57  0  0]
+ [ 0  0 70  0]
+ [ 0  0  0 44]]
+
+Sınıf Bazlı Doğruluklar
+-------------------------
+Class 1 Accuracy: 0.960000
+Class 2 Accuracy: 1.000000
+Class 3 Accuracy: 1.000000
+Class 4 Accuracy: 1.000000
