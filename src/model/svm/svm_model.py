@@ -1,10 +1,21 @@
-import pandas as pd
-from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report, confusion_matrix
-import seaborn as sns
-import matplotlib.pyplot as plt
 import os
 import joblib
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+from sklearn.svm import SVC
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    classification_report,
+    confusion_matrix,
+    balanced_accuracy_score,
+    cohen_kappa_score,
+    matthews_corrcoef
+)
 
 print("\n--- SVM Modeli ---")
 
@@ -16,64 +27,143 @@ y_test = pd.read_csv("../../../outputs/y_test.csv").squeeze()
 
 print("X_train:", X_train.shape)
 print("X_test:", X_test.shape)
+print("y_train:", y_train.shape)
+print("y_test:", y_test.shape)
 
-# model svc:Yani sınıflandırma yapan SVM sürümü. Kernel olarak linear seçildi, yani doğrusal bir sınıflandırma yapacak.
+# kayıt klasörü
+save_path = "../../../outputs/svm"
+os.makedirs(save_path, exist_ok=True)
+
+# model
+# SVC: sınıflandırma yapan SVM sürümü
+# kernel="linear": doğrusal karar sınırı kullanır
 model = SVC(kernel="linear")
 
-# training 
+# training
 model.fit(X_train, y_train)
 
-# prediction 
+# prediction
 y_pred = model.predict(X_test)
 
 print("\n--- Model Performansı ---")
 
+# temel metrikler
 accuracy = accuracy_score(y_test, y_pred)
-precision = precision_score(y_test, y_pred, average="weighted")
-recall = recall_score(y_test, y_pred, average="weighted")
-f1 = f1_score(y_test, y_pred, average="weighted")
+balanced_acc = balanced_accuracy_score(y_test, y_pred)
+
+# weighted
+precision_weighted = precision_score(y_test, y_pred, average="weighted")
+recall_weighted = recall_score(y_test, y_pred, average="weighted")
+f1_weighted = f1_score(y_test, y_pred, average="weighted")
+
+# macro
+precision_macro = precision_score(y_test, y_pred, average="macro")
+recall_macro = recall_score(y_test, y_pred, average="macro")
+f1_macro = f1_score(y_test, y_pred, average="macro")
+
+# micro
+precision_micro = precision_score(y_test, y_pred, average="micro")
+recall_micro = recall_score(y_test, y_pred, average="micro")
+f1_micro = f1_score(y_test, y_pred, average="micro")
+
+# ekstra metrikler
+kappa = cohen_kappa_score(y_test, y_pred)
+mcc = matthews_corrcoef(y_test, y_pred)
 
 print("Accuracy:", accuracy)
-print("Precision:", precision)
-print("Recall:", recall)
-print("F1 Score:", f1)
+print("Balanced Accuracy:", balanced_acc)
+
+print("\nWeighted Precision:", precision_weighted)
+print("Weighted Recall:", recall_weighted)
+print("Weighted F1:", f1_weighted)
+
+print("\nMacro Precision:", precision_macro)
+print("Macro Recall:", recall_macro)
+print("Macro F1:", f1_macro)
+
+print("\nMicro Precision:", precision_micro)
+print("Micro Recall:", recall_micro)
+print("Micro F1:", f1_micro)
+
+print("\nCohen Kappa:", kappa)
+print("MCC:", mcc)
 
 report = classification_report(y_test, y_pred)
 print("\n--- Classification Report ---")
 print(report)
 
-# klasör oluştur
-save_path = "../../../outputs/svm"
-os.makedirs(save_path, exist_ok=True)
-
-# metrikleri kaydet
-with open(f"{save_path}/svm_metrics.txt", "w") as f:
-    f.write("SVM Model Sonuçları\n")
-    f.write("----------------------\n")
-    f.write(f"Accuracy: {accuracy}\n")
-    f.write(f"Precision: {precision}\n")
-    f.write(f"Recall: {recall}\n")
-    f.write(f"F1 Score: {f1}\n\n")
-    f.write("Classification Report:\n")
-    f.write(report)
-
-print("\nMetrikler kaydedildi -> outputs/svm/svm_metrics.txt")
-
 # confusion matrix
 cm = confusion_matrix(y_test, y_pred)
 
+print("\n--- Confusion Matrix ---")
+print(cm)
+
+# sınıf bazlı doğruluk
+class_accuracy = cm.diagonal() / cm.sum(axis=1)
+
+print("\n--- Sınıf Bazlı Doğruluklar ---")
+for i, acc in enumerate(class_accuracy, start=1):
+    print(f"Class {i} Accuracy: {acc:.4f}")
+
+# metrikleri dosyaya kaydet
+with open(f"{save_path}/svm_metrics.txt", "w", encoding="utf-8") as f:
+    f.write("SVM Model Sonuçları\n")
+    f.write("=" * 40 + "\n\n")
+
+    f.write("Genel Metrikler\n")
+    f.write("-" * 20 + "\n")
+    f.write(f"Accuracy: {accuracy}\n")
+    f.write(f"Balanced Accuracy: {balanced_acc}\n")
+    f.write(f"Cohen Kappa: {kappa}\n")
+    f.write(f"MCC: {mcc}\n\n")
+
+    f.write("Weighted Ortalama Metrikler\n")
+    f.write("-" * 30 + "\n")
+    f.write(f"Precision (weighted): {precision_weighted}\n")
+    f.write(f"Recall (weighted): {recall_weighted}\n")
+    f.write(f"F1 Score (weighted): {f1_weighted}\n\n")
+
+    f.write("Macro Ortalama Metrikler\n")
+    f.write("-" * 27 + "\n")
+    f.write(f"Precision (macro): {precision_macro}\n")
+    f.write(f"Recall (macro): {recall_macro}\n")
+    f.write(f"F1 Score (macro): {f1_macro}\n\n")
+
+    f.write("Micro Ortalama Metrikler\n")
+    f.write("-" * 27 + "\n")
+    f.write(f"Precision (micro): {precision_micro}\n")
+    f.write(f"Recall (micro): {recall_micro}\n")
+    f.write(f"F1 Score (micro): {f1_micro}\n\n")
+
+    f.write("Classification Report\n")
+    f.write("-" * 25 + "\n")
+    f.write(report + "\n")
+
+    f.write("Confusion Matrix\n")
+    f.write("-" * 20 + "\n")
+    f.write(str(cm) + "\n\n")
+
+    f.write("Sınıf Bazlı Doğruluklar\n")
+    f.write("-" * 25 + "\n")
+    for i, acc in enumerate(class_accuracy, start=1):
+        f.write(f"Class {i} Accuracy: {acc:.6f}\n")
+
+print("\nMetrikler kaydedildi -> outputs/svm/svm_metrics.txt")
+
+# confusion matrix görseli
 plt.figure(figsize=(6, 5))
 sns.heatmap(cm, annot=True, fmt="d", cmap="Purples")
 
 plt.title("SVM Confusion Matrix")
 plt.xlabel("Predicted")
 plt.ylabel("Actual")
-
+plt.tight_layout()
 plt.savefig(f"{save_path}/svm_confusion_matrix.png")
 
-joblib.dump(model, f"{save_path}/svm_model.pkl")
-print("Model kaydedildi -> svm_model.pkl")
-
 print("Confusion matrix kaydedildi -> outputs/svm/svm_confusion_matrix.png")
+
+# modeli kaydet
+joblib.dump(model, f"{save_path}/svm_model.pkl")
+print("Model kaydedildi -> outputs/svm/svm_model.pkl")
 
 plt.show()

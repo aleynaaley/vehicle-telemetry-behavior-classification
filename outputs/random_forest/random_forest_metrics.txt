@@ -1,11 +1,33 @@
 Random Forest Model Sonuçları
-----------------------
-Accuracy: 1.0
-Precision: 1.0
-Recall: 1.0
-F1 Score: 1.0
+========================================
 
-Classification Report:
+Genel Metrikler
+--------------------
+Accuracy: 1.0
+Balanced Accuracy: 1.0
+Cohen Kappa: 1.0
+MCC: 1.0
+
+Weighted Ortalama Metrikler
+------------------------------
+Precision (weighted): 1.0
+Recall (weighted): 1.0
+F1 Score (weighted): 1.0
+
+Macro Ortalama Metrikler
+---------------------------
+Precision (macro): 1.0
+Recall (macro): 1.0
+F1 Score (macro): 1.0
+
+Micro Ortalama Metrikler
+---------------------------
+Precision (micro): 1.0
+Recall (micro): 1.0
+F1 Score (micro): 1.0
+
+Classification Report
+-------------------------
               precision    recall  f1-score   support
 
            1       1.00      1.00      1.00        50
@@ -16,3 +38,17 @@ Classification Report:
     accuracy                           1.00       221
    macro avg       1.00      1.00      1.00       221
 weighted avg       1.00      1.00      1.00       221
+
+Confusion Matrix
+--------------------
+[[50  0  0  0]
+ [ 0 57  0  0]
+ [ 0  0 70  0]
+ [ 0  0  0 44]]
+
+Sınıf Bazlı Doğruluklar
+-------------------------
+Class 1 Accuracy: 1.000000
+Class 2 Accuracy: 1.000000
+Class 3 Accuracy: 1.000000
+Class 4 Accuracy: 1.000000

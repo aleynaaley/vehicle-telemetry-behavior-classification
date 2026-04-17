@@ -1,11 +1,33 @@
 Logistic Regression Model Sonuçları
-----------------------
-Accuracy: 0.9909502262443439
-Precision: 0.99101395704544
-Recall: 0.9909502262443439
-F1 Score: 0.9909462503191389
+========================================
 
-Classification Report:
+Genel Metrikler
+--------------------
+Accuracy: 0.9909502262443439
+Balanced Accuracy: 0.9906140350877193
+Cohen Kappa: 0.9878045415666473
+MCC: 0.9878318710651167
+
+Weighted Ortalama Metrikler
+------------------------------
+Precision (weighted): 0.99101395704544
+Recall (weighted): 0.9909502262443439
+F1 Score (weighted): 0.9909462503191389
+
+Macro Ortalama Metrikler
+---------------------------
+Precision (macro): 0.9914788732394366
+Recall (macro): 0.9906140350877193
+F1 Score (macro): 0.9910145609740789
+
+Micro Ortalama Metrikler
+---------------------------
+Precision (micro): 0.9909502262443439
+Recall (micro): 0.9909502262443439
+F1 Score (micro): 0.9909502262443439
+
+Classification Report
+-------------------------
               precision    recall  f1-score   support
 
            1       0.98      0.98      0.98        50
@@ -16,3 +38,17 @@ Classification Report:
     accuracy                           0.99       221
    macro avg       0.99      0.99      0.99       221
 weighted avg       0.99      0.99      0.99       221
+
+Confusion Matrix
+--------------------
+[[49  0  1  0]
+ [ 1 56  0  0]
+ [ 0  0 70  0]
+ [ 0  0  0 44]]
+
+Sınıf Bazlı Doğruluklar
+-------------------------
+Class 1 Accuracy: 0.980000
+Class 2 Accuracy: 0.982456
+Class 3 Accuracy: 1.000000
+Class 4 Accuracy: 1.000000
