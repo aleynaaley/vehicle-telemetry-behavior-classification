@@ -1,5 +1,6 @@
 import os
 import joblib
+import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -18,6 +19,22 @@ from sklearn.metrics import (
 )
 
 print("\n--- Logistic Regression Modeli ---")
+
+
+def calculate_specificity(cm):
+    specificities = []
+
+    for i in range(len(cm)):
+        TP = cm[i, i]
+        FN = np.sum(cm[i, :]) - TP
+        FP = np.sum(cm[:, i]) - TP
+        TN = np.sum(cm) - (TP + FP + FN)
+
+        specificity = TN / (TN + FP)
+        specificities.append(specificity)
+
+    return specificities, np.mean(specificities)
+
 
 # verileri yükle
 X_train = pd.read_csv("../../../outputs/X_train_scaled.csv")
@@ -103,6 +120,15 @@ print("\n--- Sınıf Bazlı Doğruluklar ---")
 for i, acc in enumerate(class_accuracy, start=1):
     print(f"Class {i} Accuracy: {acc:.4f}")
 
+# specificity
+class_specificity, avg_specificity = calculate_specificity(cm)
+
+print("\n--- Specificity ---")
+for i, val in enumerate(class_specificity, start=1):
+    print(f"Class {i} Specificity: {val:.4f}")
+
+print(f"Average Specificity: {avg_specificity:.4f}")
+
 # metrikleri dosyaya kaydet
 with open(f"{save_path}/logistic_regression_metrics.txt", "w", encoding="utf-8") as f:
     f.write("Logistic Regression Model Sonuçları\n")
@@ -112,6 +138,7 @@ with open(f"{save_path}/logistic_regression_metrics.txt", "w", encoding="utf-8")
     f.write("-" * 20 + "\n")
     f.write(f"Accuracy: {accuracy}\n")
     f.write(f"Balanced Accuracy: {balanced_acc}\n")
+    f.write(f"Average Specificity: {avg_specificity}\n")
     f.write(f"Cohen Kappa: {kappa}\n")
     f.write(f"MCC: {mcc}\n\n")
 
@@ -145,6 +172,12 @@ with open(f"{save_path}/logistic_regression_metrics.txt", "w", encoding="utf-8")
     f.write("-" * 25 + "\n")
     for i, acc in enumerate(class_accuracy, start=1):
         f.write(f"Class {i} Accuracy: {acc:.6f}\n")
+
+    f.write("\nSpecificity\n")
+    f.write("-" * 20 + "\n")
+    for i, val in enumerate(class_specificity, start=1):
+        f.write(f"Class {i} Specificity: {val:.6f}\n")
+    f.write(f"Average Specificity: {avg_specificity:.6f}\n\n")
 
 print("\nMetrikler kaydedildi -> outputs/logistic_regression/logistic_regression_metrics.txt")
 

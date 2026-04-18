@@ -5,6 +5,7 @@ Genel Metrikler
 --------------------
 Accuracy: 0.9909502262443439
 Balanced Accuracy: 0.9920426065162907
+Average Specificity: 0.9971255823173754
 Cohen Kappa: 0.9878200005511312
 MCC: 0.9878748058836917
 
@@ -52,3 +53,12 @@ Class 1 Accuracy: 1.000000
 Class 2 Accuracy: 0.982456
 Class 3 Accuracy: 0.985714
 Class 4 Accuracy: 1.000000
+
+Specificity
+--------------------
+Class 1 Specificity: 0.994152
+Class 2 Specificity: 1.000000
+Class 3 Specificity: 1.000000
+Class 4 Specificity: 0.994350
+Average Specificity: 0.997126
+
