@@ -1,27 +1,39 @@
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 
-print("\n--- Grafik Oluşturuluyor ---")
+print("\n--- Tüm Metrik Grafikleri Oluşturuluyor ---")
 
 df = pd.read_csv("../../outputs/model_results.csv")
 
-# accuracy grafiği
-plt.figure(figsize=(8,5))
-bars = plt.bar(df["Model"], df["Accuracy"])
+save_path = "../../outputs/metric_plots"
+os.makedirs(save_path, exist_ok=True)
 
-# değerleri üstüne yaz
-for bar in bars:
-    yval = bar.get_height()
-    plt.text(bar.get_x() + bar.get_width()/2, yval, f"{yval:.3f}", 
-             ha='center', va='bottom')
+metrics = ["Accuracy", "Precision", "Recall", "Specificity", "F1 Score", "MCC"]
 
-plt.title("Model Accuracy Comparison")
-plt.xlabel("Model")
-plt.ylabel("Accuracy")
+for metric in metrics:
+    plt.figure(figsize=(8, 5))
+    bars = plt.bar(df["Model"], df[metric])
 
-plt.xticks(rotation=45)
-plt.ylim(0.90, 1.01)  # zoom effect
+    for bar in bars:
+        yval = bar.get_height()
+        plt.text(
+            bar.get_x() + bar.get_width() / 2,
+            yval,
+            f"{yval:.3f}",
+            ha="center",
+            va="bottom"
+        )
 
-plt.tight_layout()
-plt.savefig("../../outputs/model_accuracy_comparison.png")
-plt.show()
+    plt.title(f"{metric} Comparison of Models")
+    plt.xlabel("Model")
+    plt.ylabel(metric)
+    plt.xticks(rotation=45)
+    plt.ylim(0.85, 1.01)
+    plt.tight_layout()
+
+    filename = metric.lower().replace(" ", "_") + "_comparison.png"
+    plt.savefig(f"{save_path}/{filename}")
+    plt.show()
+
+print("\nGrafikler kaydedildi -> outputs/metric_plots/")
